@@ -39,7 +39,8 @@ def product_list(request):
 
     if request.method == 'GET':
         products = Product.objects.all()
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=True, context={'request': request})
+        print(serializer.data)
         return JsonResponse(serializer.data, safe=False)
 
 
@@ -52,5 +53,5 @@ def product_detail(request, pk):
         return HttpResponse(status=404)
 
     if request.method == 'GET':
-        serializer = ProductSerializer(product)
+        serializer = ProductSerializer(product, context={'request': request})
         return JsonResponse(serializer.data)
